@@ -1,0 +1,7 @@
+wp-app/
+wp-content/themes/twentynineteen/
+wp-content/themes/twentyseventeen/
+wp-content/themes/twentytwenty/
+wp-content/plugins/akismet/
+wp-content/plugins/hello.php
+.DS_Store
