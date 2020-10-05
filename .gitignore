@@ -102,3 +102,13 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Wordpress
+wordpress/wp-app/
+wordpress/wp-content/themes/twentynineteen/
+wordpress/wp-content/themes/twentyseventeen/
+wordpress/wp-content/themes/twentytwenty/
+
+# Mac
+.DS_Store
+wordpress/.DS_Store
