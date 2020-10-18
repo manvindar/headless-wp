@@ -1,21 +1,6 @@
 version: '3.8'
 
-services:
-  nginx-proxy:
-    container_name: waxbox_server
-    image: jwilder/nginx-proxy
-    restart: always
-    ports:
-      - 80:80
-      - 443:443
-      - 3306:3306
-      - 3000:3000
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./etc/nginx/proxy.conf:/etc/nginx/proxy.conf
-    networks:
-      - default
-    
+services:    
   db:
     container_name: waxbox_mysql
     image: mysql:5.7
@@ -30,7 +15,7 @@ services:
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: wordpress
     networks:
-      - backend
+      - waxbox_net
 
   wordpress:
     container_name: waxbox_wordpress
@@ -56,8 +41,7 @@ services:
         /* JWT Auth */
         define('GRAPHQL_JWT_AUTH_SECRET_KEY', 'bd4d86b1eb246a3ddc3f30e870aa9956db104de2');
     networks:
-      - frontend
-      - backend
+      - waxbox_net
 
   wpcli:
     container_name: waxbox_wordpress_cli
@@ -68,8 +52,7 @@ services:
       - db
       - wordpress
     networks:
-      - frontend
-      - backend
+      - waxbox_net
   
   ui:
     container_name: waxbox_ui
@@ -86,17 +69,11 @@ services:
     ports:
       - 3033:3000
     networks:
-      - frontend
-      - backend
+      - waxbox_net
 
 networks:
-  default:
-    external:
-      name: proxy
-  backend:
-  frontend:
-    external:
-      name: proxy
+  waxbox_net:
+      driver: bridge
 
 volumes:
     db_data:
