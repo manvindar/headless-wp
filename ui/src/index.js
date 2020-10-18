@@ -3,6 +3,28 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
+
+const client = new ApolloClient({
+  uri: 'http://localhost:8088',
+  cache: new InMemoryCache()
+});
+
+client
+  .query({
+    query: gql`
+      {
+        users {
+          edges {
+            node {
+              email
+            }
+          }
+        }
+      }
+    `
+  })
+  .then(result => console.log(result));
 
 ReactDOM.render(
   <React.StrictMode>
