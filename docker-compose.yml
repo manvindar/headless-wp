@@ -9,6 +9,7 @@ services:
       - 80:80
       - 443:443
       - 3306:3306
+      - 3000:3000
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ./etc/nginx/proxy.conf:/etc/nginx/proxy.conf
@@ -70,19 +71,23 @@ services:
       - frontend
       - backend
   
-  frontend:
-    container_name: waxbox_frontend
+  ui:
+    container_name: waxbox_ui
     stdin_open: true
+    depends_on:
+      - db
+      - wordpress
     build:
-      context: frontend
+      context: ui
       dockerfile: ./Dockerfile
     volumes:
-      - './frontend/:/app'
-      - './frontend/app/node_modules'
+      - './ui/:/app'
+      - './ui/app/node_modules'
     ports:
-      - 3000:3000
-    links:
-      - wordpress
+      - 3033:3000
+    networks:
+      - frontend
+      - backend
 
 networks:
   default:
